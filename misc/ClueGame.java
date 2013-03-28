@@ -206,6 +206,15 @@ public class ClueGame {
 		}
 		return rooms;
 	}
+	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
 	public ArrayList<Card> getDeck() {
 		return deck;
 	}

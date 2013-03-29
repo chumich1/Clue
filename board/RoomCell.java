@@ -6,6 +6,9 @@
  */
 package board;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 // BoardCell class body
 public class RoomCell extends BoardCell {
 	
@@ -99,5 +102,12 @@ public class RoomCell extends BoardCell {
 	// Getter for the room classifier. Must return a char listed in the legend config file
 	public char getRoomClassifier() {
 		return roomClassifier;
+	}
+
+	@Override
+	void draw(Graphics g, Board b) {
+		g.setColor(Color.GRAY);
+	
+	
 	}
 }

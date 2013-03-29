@@ -17,8 +17,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 // Board class body
-public class Board {
+public class Board extends JPanel{
 
 	// The list of cells for the board
 	private ArrayList<BoardCell> cells;

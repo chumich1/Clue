@@ -7,6 +7,8 @@
  */
 
 package board;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,8 +19,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 // Board class body
-public class Board {
+public class Board extends JPanel {
 
 	// The list of cells for the board
 	private ArrayList<BoardCell> cells;
@@ -29,6 +33,10 @@ public class Board {
 	// Number of rows and columns corresponding to the board
 	private int numRows;
 	private int numColumns;
+	private int currentX;
+	private int currentY;
+	private int cellWidth;
+	private int cellHeight;
 
 	// Filepaths for the configuration files
 	private String csvFilepath, legendFilepath;
@@ -70,6 +78,21 @@ public class Board {
 		// Initialize the rows and columns to 0
 		numRows = 0;
 		numColumns = 0;
+	}
+	
+	public void paintComponent(Graphics g) {
+		currentX = 0;
+		currentY = 0;
+		cellWidth = this.getWidth() / numColumns;
+		cellHeight = this.getHeight() / numRows;
+		int count = 0;
+		for(BoardCell a : cells) {
+			a.draw(g, this);
+			currentX += cellWidth;
+			count++;
+			if(count % numColumns == 0)
+				currentY += cellHeight;
+		}
 	}
 
 	// Method loadConfigFiles relies on two other functions to finish initializing the board
@@ -340,4 +363,37 @@ public class Board {
 	public int getNumColumns() {
 		return numColumns;
 	}
+	
+	public int getCurrentX() {
+		return currentX;
+	}
+
+	public void setCurrentX(int currentX) {
+		this.currentX = currentX;
+	}
+
+	public int getCurrentY() {
+		return currentY;
+	}
+
+	public void setCurrentY(int currentY) {
+		this.currentY = currentY;
+	}
+
+	public int getThisWidth() {
+		return cellWidth;
+	}
+
+	public void setThisWidth(int width) {
+		this.cellWidth = width;
+	}
+
+	public int getThisHeigth() {
+		return cellHeight;
+	}
+
+	public void setThisHeight(int heigth) {
+		this.cellHeight = cellHeight;
+	}
+
 }

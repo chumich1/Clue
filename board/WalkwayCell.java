@@ -7,6 +7,7 @@
 
 package board;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 // WalkwayCell class body, extending BoardCell
@@ -25,9 +26,11 @@ public class WalkwayCell extends BoardCell {
 
 	@Override
 	void draw(Graphics g, Board b) {
-		// TODO Auto-generated method stub
-		
+		g.setColor(Color.YELLOW);
+		g.fillRect(b.getCurrentX(), b.getCurrentY(), b.getThisWidth(), b.getThisHeigth());
+	
 	}
+	
 	
 	
 	

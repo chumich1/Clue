@@ -107,7 +107,24 @@ public class RoomCell extends BoardCell {
 	@Override
 	void draw(Graphics g, Board b) {
 		g.setColor(Color.GRAY);
-	
+		g.fillRect(b.getCurrentX(), b.getCurrentY(), b.getThisWidth(), b.getThisHeigth());
+		g.setColor(Color.BLUE);
+		switch(doorDirection)
+		{
+		case DOWN: g.fillRect(b.getCurrentX(),  b.getCurrentY()+ 4*(b.getThisHeigth()/5), b.getThisWidth(), b.getThisHeigth()/5);
+			break;
+		case LEFT:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getThisWidth()/5, b.getThisHeigth());
+			break;
+		case NONE:
+			break;
+		case RIGHT:g.fillRect(b.getCurrentX()+4*(b.getThisWidth()/5),  b.getCurrentY(), b.getThisWidth()/5, b.getThisHeigth());
+			break;
+		case UP:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getThisWidth(), b.getThisHeigth()/5);
+			break;
+		default:
+			break;
+		
+		}
 	
 	}
 }

@@ -21,6 +21,8 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import misc.Player;
+
 // Board class body
 
 public class Board extends JPanel {

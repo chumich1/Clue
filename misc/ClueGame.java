@@ -2,6 +2,7 @@ package misc;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String args[]) {
 		ClueGame thisGame = new ClueGame();
+		thisGame.update();
 	}
 
 	private ArrayList<Card> deck;
@@ -46,7 +48,6 @@ public class ClueGame extends JFrame {
 		this.add(board, BorderLayout.CENTER);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
-		
 	}
 	
 	public ClueGame() {
@@ -56,14 +57,28 @@ public class ClueGame extends JFrame {
 		weapons = "weapons.txt";
 		deck = new ArrayList<Card>();
 		closetCards = new ArrayList<Card>();
+		board = new Board(layout, legend);
 		cpuPlayers = new ArrayList<ComputerPlayer>();
 		humanPlayer = new HumanPlayer();
-		board = new Board(layout, legend);
 		this.loadConfigFiles();
 		this.add(board, BorderLayout.CENTER);
 		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
+	}
+	
+	public void update() {
+		while(true)
+			paintPlayers(this.getGraphics());
+	}
+	
+	public void paintPlayers(Graphics g) {
+		ArrayList<Player> theseGuys = new ArrayList<Player>();
+		theseGuys.add(humanPlayer);
+		theseGuys.addAll(cpuPlayers);
+		for(Player p : theseGuys) {
+			p.draw(g, board);
+		}
 	}
 	
 	public void loadConfigFiles() {

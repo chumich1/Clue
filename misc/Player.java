@@ -1,6 +1,10 @@
 package misc;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import board.Board;
 import misc.Card.CardType;
+import javax.swing.text.html.StyleSheet;
 
 public class Player {
 
@@ -131,7 +135,12 @@ public class Player {
 			return false;
 		return true;
 	}
-	
-	
+
+	public void draw(Graphics g, Board board) {
+		StyleSheet s = new StyleSheet();
+		g.setColor(s.stringToColor(color));
+		g.fillOval((column)*board.getThisWidth(), (row)*board.getThisHeigth(), 
+				board.getThisWidth(), board.getThisHeigth());
+	}
 
 }

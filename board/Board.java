@@ -92,8 +92,10 @@ public class Board extends JPanel {
 			a.draw(g, this);
 			currentX += cellWidth;
 			count++;
-			if(count % numColumns == 0)
+			if(count % numColumns == 0) {
 				currentY += cellHeight;
+				currentX = 0;
+			}
 		}
 	}
 

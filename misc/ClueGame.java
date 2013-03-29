@@ -1,15 +1,24 @@
 package misc;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+
 import board.Board;
 
 import misc.Card.CardType;
 
-public class ClueGame {
+public class ClueGame extends JFrame {
+	
+	public static void main(String args[]) {
+		ClueGame thisGame = new ClueGame();
+	}
 
 	private ArrayList<Card> deck;
 	private ArrayList<Card> closetCards;
@@ -32,6 +41,12 @@ public class ClueGame {
 		cpuPlayers = new ArrayList<ComputerPlayer>();
 		humanPlayer = new HumanPlayer();
 		board = new Board(layout, legend);
+		this.loadConfigFiles();
+		this.setSize(new Dimension(800, 800));
+		this.add(board, BorderLayout.CENTER);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
+		
 	}
 	
 	public ClueGame() {
@@ -44,6 +59,11 @@ public class ClueGame {
 		cpuPlayers = new ArrayList<ComputerPlayer>();
 		humanPlayer = new HumanPlayer();
 		board = new Board(layout, legend);
+		this.loadConfigFiles();
+		this.add(board, BorderLayout.CENTER);
+		this.setSize(new Dimension(800, 800));
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
 	
 	public void loadConfigFiles() {

@@ -28,6 +28,8 @@ public class WalkwayCell extends BoardCell {
 	void draw(Graphics g, Board b) {
 		g.setColor(Color.YELLOW);
 		g.fillRect(b.getCurrentX(), b.getCurrentY(), b.getThisWidth(), b.getThisHeigth());
+		g.setColor(Color.BLACK);
+		g.drawRect(b.getCurrentX(), b.getCurrentY(), b.getThisWidth(), b.getThisHeigth());
 	
 	}
 	

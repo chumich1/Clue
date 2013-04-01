@@ -87,8 +87,8 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		currentX = 0;
 		currentY = 0;
-		cellWidth = this.getWidth() / numColumns;
-		cellHeight = this.getHeight() / numRows;
+		cellWidth = (this.getWidth() - this.getWidth() % numColumns) / numColumns;
+		cellHeight = (this.getHeight() - this.getHeight() % numRows) / numRows;
 		int count = 0;
 		for(BoardCell a : cells) {
 			a.draw(g, this);
@@ -101,22 +101,6 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void paintChildren(Graphics g) {
-		currentX = 0;
-		currentY = 0;
-		cellWidth = this.getWidth() / numColumns;
-		cellHeight = this.getHeight() / numRows;
-		int count = 0;
-		for(BoardCell a : cells) {
-			a.draw(g, this);
-			currentX += cellWidth;
-			count++;
-			if(count % numColumns == 0) {
-				currentY += cellHeight;
-				currentX = 0;
-			}
-		}
-	}
 	// Method loadConfigFiles relies on two other functions to finish initializing the board
 	public void loadConfigFiles() {
 		try {
@@ -219,7 +203,7 @@ public class Board extends JPanel {
 
 		// Close resources
 		csvFile.close();
-
+		
 		// Now that we have all the information, create the visited array.
 		visited = new boolean[numRows * numColumns];
 	}
@@ -402,19 +386,19 @@ public class Board extends JPanel {
 		this.currentY = currentY;
 	}
 
-	public int getThisWidth() {
+	public int getCellWidth() {
 		return cellWidth;
 	}
 
-	public void setThisWidth(int width) {
+	public void setCellWidth(int width) {
 		this.cellWidth = width;
 	}
 
-	public int getThisHeigth() {
+	public int getCellHeight() {
 		return cellHeight;
 	}
 
-	public void setThisHeight(int heigth) {
+	public void setCellHeight(int heigth) {
 		this.cellHeight = cellHeight;
 	}
 

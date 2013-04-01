@@ -4,9 +4,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import board.Board;
 import misc.Card.CardType;
+
+import javax.swing.JComponent;
 import javax.swing.text.html.StyleSheet;
 
-public class Player {
+public class Player extends JComponent {
 
 	private int row;
 	private int column;
@@ -136,11 +138,14 @@ public class Player {
 		return true;
 	}
 
-	public void draw(Graphics g, Board board) {
+	public void draw(Graphics g, int cellWidth, int cellHeight) {
 		StyleSheet s = new StyleSheet();
 		g.setColor(s.stringToColor(color));
-		g.fillOval((column)*board.getThisWidth(), (row)*board.getThisHeigth(), 
-				board.getThisWidth(), board.getThisHeigth());
+		g.fillOval((column)*cellWidth + 8, (row)*cellHeight + 30, 
+				cellWidth, cellHeight);
+		g.setColor(Color.BLACK);
+		g.drawOval((column)*cellWidth + 8, (row)*cellHeight + 30, 
+				cellWidth, cellHeight);
 	}
 
 }

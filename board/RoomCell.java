@@ -107,19 +107,19 @@ public class RoomCell extends BoardCell {
 	@Override
 	void draw(Graphics g, Board b) {
 		g.setColor(Color.GRAY);
-		g.fillRect(b.getCurrentX(), b.getCurrentY(), b.getThisWidth(), b.getThisHeigth());
+		g.fillRect(b.getCurrentX(), b.getCurrentY(), b.getCellWidth(), b.getCellHeight());
 		g.setColor(Color.BLUE);
 		switch(doorDirection)
 		{
-		case DOWN: g.fillRect(b.getCurrentX(),  b.getCurrentY()+ 4*(b.getThisHeigth()/5), b.getThisWidth(), b.getThisHeigth()/5);
+		case DOWN: g.fillRect(b.getCurrentX(),  b.getCurrentY()+ 4*(b.getCellHeight()/5), b.getCellWidth(), b.getCellHeight()/5);
 			break;
-		case LEFT:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getThisWidth()/5, b.getThisHeigth());
+		case LEFT:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getCellWidth()/5, b.getCellHeight());
 			break;
 		case NONE:
 			break;
-		case RIGHT:g.fillRect(b.getCurrentX()+4*(b.getThisWidth()/5),  b.getCurrentY(), b.getThisWidth()/5, b.getThisHeigth());
+		case RIGHT:g.fillRect(b.getCurrentX()+4*(b.getCellWidth()/5),  b.getCurrentY(), b.getCellWidth()/5, b.getCellHeight());
 			break;
-		case UP:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getThisWidth(), b.getThisHeigth()/5);
+		case UP:g.fillRect(b.getCurrentX(),  b.getCurrentY(), b.getCellWidth(), b.getCellHeight()/5);
 			break;
 		default:
 			break;

@@ -19,7 +19,7 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String args[]) {
 		ClueGame thisGame = new ClueGame();
-//		thisGame.update();
+		thisGame.update();
 	}
 
 	private ArrayList<Card> deck;
@@ -67,17 +67,17 @@ public class ClueGame extends JFrame {
 		this.setVisible(true);
 	}
 	
-	/*public void update() {
+	public void update() {
 		while(true)
-			paintPlayers(this.getGraphics());
+			paintChildren(this.getGraphics());
 	}
-	*/
+
 	public void paintChildren(Graphics g) {
 		ArrayList<Player> theseGuys = new ArrayList<Player>();
 		theseGuys.add(humanPlayer);
 		theseGuys.addAll(cpuPlayers);
 		for(Player p: theseGuys){
-			p.draw(g, board);
+			p.draw(g, board.getCellWidth(), board.getCellHeight());
 		}
 		
 	}

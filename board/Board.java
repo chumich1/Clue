@@ -101,6 +101,22 @@ public class Board extends JPanel {
 		}
 	}
 
+	public void paintChildren(Graphics g) {
+		currentX = 0;
+		currentY = 0;
+		cellWidth = this.getWidth() / numColumns;
+		cellHeight = this.getHeight() / numRows;
+		int count = 0;
+		for(BoardCell a : cells) {
+			a.draw(g, this);
+			currentX += cellWidth;
+			count++;
+			if(count % numColumns == 0) {
+				currentY += cellHeight;
+				currentX = 0;
+			}
+		}
+	}
 	// Method loadConfigFiles relies on two other functions to finish initializing the board
 	public void loadConfigFiles() {
 		try {

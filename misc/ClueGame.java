@@ -69,17 +69,14 @@ public class ClueGame extends JFrame {
 	
 	public void update() {
 		while(true)
-			paintChildren(this.getGraphics());
+			drawPlayers(this.getGraphics());
 	}
 
-	public void paintChildren(Graphics g) {
+	public void drawPlayers(Graphics g) {
 		ArrayList<Player> theseGuys = new ArrayList<Player>();
 		theseGuys.add(humanPlayer);
 		theseGuys.addAll(cpuPlayers);
-		for(Player p: theseGuys){
-			p.draw(g, board.getCellWidth(), board.getCellHeight());
-		}
-		
+		board.setTheseGuys(theseGuys);
 	}
 	
 	public void loadConfigFiles() {

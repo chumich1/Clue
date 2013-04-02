@@ -41,6 +41,8 @@ public class Board extends JPanel {
 	private int currentY;
 	private int cellWidth;
 	private int cellHeight;
+	
+	private ArrayList<Player> theseGuys;
 
 	// Filepaths for the configuration files
 	private String csvFilepath, legendFilepath;
@@ -82,6 +84,7 @@ public class Board extends JPanel {
 		// Initialize the rows and columns to 0
 		numRows = 0;
 		numColumns = 0;
+		theseGuys = new ArrayList<Player>();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -98,6 +101,9 @@ public class Board extends JPanel {
 				currentY += cellHeight;
 				currentX = 0;
 			}
+		}
+		for(Player p: theseGuys){
+			p.draw(g, cellWidth, cellHeight);
 		}
 	}
 
@@ -400,6 +406,14 @@ public class Board extends JPanel {
 
 	public void setCellHeight(int heigth) {
 		this.cellHeight = cellHeight;
+	}
+	
+	public ArrayList<Player> getTheseGuys() {
+		return theseGuys;
+	}
+
+	public void setTheseGuys(ArrayList<Player> theseGuys) {
+		this.theseGuys = theseGuys;
 	}
 
 }

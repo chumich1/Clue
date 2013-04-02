@@ -141,10 +141,10 @@ public class Player extends JComponent {
 	public void draw(Graphics g, int cellWidth, int cellHeight) {
 		StyleSheet s = new StyleSheet();
 		g.setColor(s.stringToColor(color));
-		g.fillOval((column)*cellWidth + 8, (row)*cellHeight + 30, 
+		g.fillOval((column)*cellWidth, (row)*cellHeight, 
 				cellWidth, cellHeight);
 		g.setColor(Color.BLACK);
-		g.drawOval((column)*cellWidth + 8, (row)*cellHeight + 30, 
+		g.drawOval((column)*cellWidth, (row)*cellHeight, 
 				cellWidth, cellHeight);
 	}
 

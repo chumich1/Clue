@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import board.Board;
 
@@ -20,6 +23,7 @@ public class ClueGame extends JFrame {
 	public static void main(String args[]) {
 		ClueGame thisGame = new ClueGame();
 		thisGame.update();
+		DetectiveNotes these = new DetectiveNotes(thisGame.getDeck());
 	}
 
 	private ArrayList<Card> deck;
@@ -32,6 +36,11 @@ public class ClueGame extends JFrame {
 	private String layout;
 	private String players;
 	private String weapons;
+	
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu file = new JMenu("File");
+	private JMenuItem viewNotes = new JMenu("View Detective Notes");
+	private JMenuItem exit = new JMenu("Exit");
 
 	public ClueGame(String legend, String layout, String players, String weapons) {
 		this.legend = legend;
@@ -44,8 +53,16 @@ public class ClueGame extends JFrame {
 		humanPlayer = new HumanPlayer();
 		board = new Board(layout, legend);
 		this.loadConfigFiles();
-		this.setSize(new Dimension(800, 800));
 		this.add(board, BorderLayout.CENTER);
+		menuBar = new JMenuBar();
+		file = new JMenu("File");
+		viewNotes = new JMenu("View Detective Notes");
+		exit = new JMenu("Exit");
+		file.add(viewNotes);
+		file.add(exit);
+		menuBar.add(file);
+		this.add(menuBar, BorderLayout.NORTH);
+		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -62,6 +79,14 @@ public class ClueGame extends JFrame {
 		humanPlayer = new HumanPlayer();
 		this.loadConfigFiles();
 		this.add(board, BorderLayout.CENTER);
+		menuBar = new JMenuBar();
+		file = new JMenu("File");
+		viewNotes = new JMenu("View Detective Notes");
+		exit = new JMenu("Exit");
+		file.add(viewNotes);
+		file.add(exit);
+		menuBar.add(file);
+		this.add(menuBar, BorderLayout.NORTH);
 		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);

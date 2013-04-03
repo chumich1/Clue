@@ -1,0 +1,11 @@
+Conservatory,3,2
+Kitchen,12,2
+Ballroom,2,23
+Billiard Room,0,10
+Library,14,17
+Study,5,16
+Dining Room,14,10
+Lounge,19,23
+Walkway,11,10
+Closet,6,10
+Hall,9,22

@@ -20,11 +20,11 @@ public class DetectiveNotes extends JDialog {
 	public DetectiveNotes(ArrayList<Card> cards) {
 		this.setLayout(new GridLayout(3, 2));
 		JPanel peoplePan = new JPanel(new GridLayout(0, 2));
-		JPanel personGuess = new JPanel();
+		JPanel personGuess = new JPanel(new GridLayout(0, 2));
 		JPanel roomsPan = new JPanel(new GridLayout(0, 2));
-		JPanel roomGuess = new JPanel();
+		JPanel roomGuess = new JPanel(new GridLayout(0, 2));
 		JPanel weaponsPan = new JPanel(new GridLayout(0, 2));
-		JPanel weaponGuess = new JPanel();
+		JPanel weaponGuess = new JPanel(new GridLayout(0, 2));
 		JComboBox people = new JComboBox();
 		JComboBox rooms = new JComboBox();
 		JComboBox weapons = new JComboBox();

@@ -41,6 +41,7 @@ public class Board extends JPanel {
 	private int currentY;
 	private int cellWidth;
 	private int cellHeight;
+	private ArrayList<RoomNames> roomNames;
 	
 	private ArrayList<Player> theseGuys;
 
@@ -60,6 +61,7 @@ public class Board extends JPanel {
 	public Board() {
 		// Initialize cells, rooms, numRows, numColumns
 		initialize();
+		loadRoomNames("roomNameLocations.txt");
 	}
 
 	// Parameterized constructor, sets all the fields of board using the configuration files
@@ -73,6 +75,7 @@ public class Board extends JPanel {
 		adjacencyLists = new HashMap<Integer, LinkedList<Integer>>();
 		// Set up the targets as a blank set
 		targets = new HashSet<BoardCell>();
+		loadRoomNames("roomNameLocations.txt");
 	}
 	
 	// Initializes default values of cells, rooms, numRows, and numColumns
@@ -104,6 +107,9 @@ public class Board extends JPanel {
 		}
 		for(Player p: theseGuys){
 			p.draw(g, cellWidth, cellHeight);
+		}
+		for(RoomNames r: roomNames) {
+			r.drawRoomName(g, this);
 		}
 	}
 
@@ -198,6 +204,8 @@ public class Board extends JPanel {
 				}
 			}
 		}
+		
+		
 
 		// Calculate the number of columns from the rows and amount of cells
 		numColumns = cells.size() / numRows;
@@ -212,6 +220,30 @@ public class Board extends JPanel {
 		
 		// Now that we have all the information, create the visited array.
 		visited = new boolean[numRows * numColumns];
+	}
+	
+	public void loadRoomNames(String roomNameTextFile) {
+		roomNames = new ArrayList<RoomNames>();
+		// Initialize the scanner
+		Scanner roomNameFile = null;
+		try {
+			// Attempt to create a new scanner on the legend path
+			roomNameFile = new Scanner(new File(roomNameTextFile));
+		} catch (FileNotFoundException e) {
+			// If we can't find the legend, throw an I/O exception under the BadConfigFormatException
+			System.out.println("Exception in loadRoomNames");
+		}
+
+		// Create an array to hold the legend lines after splitting
+		String[] roomSplit;
+
+		// While we have more lines:
+		while(roomNameFile.hasNextLine()) {
+			// Split the line at the comma
+			roomSplit = roomNameFile.nextLine().split(",");
+			roomNames.add(new RoomNames(roomSplit));
+		}
+		roomNameFile.close();
 	}
 
 	// Calculates the appropriate index on a 1D array given a row and column 

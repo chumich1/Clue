@@ -92,6 +92,7 @@ public class ClueGame extends JFrame {
 		this.add(menuBar, BorderLayout.NORTH);
 		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setTitle("The Game of Clue");
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
 	}

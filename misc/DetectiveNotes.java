@@ -58,7 +58,7 @@ public class DetectiveNotes extends JDialog {
 		this.add(weaponGuess);
 		this.setSize(new Dimension(600, 800));
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setVisible(true);
+		//this.setVisible(false);
 	}
 	
 }

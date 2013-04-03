@@ -3,6 +3,8 @@ package misc;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String args[]) {
 		ClueGame thisGame = new ClueGame();
-		DetectiveNotes these = new DetectiveNotes(thisGame.getDeck());
 		thisGame.update();
 	}
 
@@ -36,6 +37,7 @@ public class ClueGame extends JFrame {
 	private String layout;
 	private String players;
 	private String weapons;
+	private DetectiveNotes these;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu file = new JMenu("File");
@@ -65,6 +67,7 @@ public class ClueGame extends JFrame {
 		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
+		these = new DetectiveNotes(this.getDeck());
 	}
 	
 	public ClueGame() {
@@ -81,8 +84,8 @@ public class ClueGame extends JFrame {
 		this.add(board, BorderLayout.CENTER);
 		menuBar = new JMenuBar();
 		file = new JMenu("File");
-		viewNotes = new JMenu("View Detective Notes");
-		exit = new JMenu("Exit");
+		viewNotes = createDetectiveNotesView();
+		exit = createFileExitItem();
 		file.add(viewNotes);
 		file.add(exit);
 		menuBar.add(file);
@@ -90,6 +93,31 @@ public class ClueGame extends JFrame {
 		this.setSize(new Dimension(800, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
+		these = new DetectiveNotes(this.getDeck());
+	}
+	
+	private JMenuItem createFileExitItem() {
+		JMenuItem item = new JMenuItem("Exit");
+		class MenuItemListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
+	}
+	
+	private JMenuItem createDetectiveNotesView() {
+		JMenuItem item = new JMenuItem("View Detective Notes");
+		class MenuItemListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				these.setVisible(true);
+			}
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
 	}
 	
 	public void update() {

@@ -3,6 +3,7 @@ package misc;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import board.Board;
 
@@ -38,11 +40,14 @@ public class ClueGame extends JFrame {
 	private String players;
 	private String weapons;
 	private DetectiveNotes these;
+	private MyCardsPanel myCards;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu file = new JMenu("File");
 	private JMenuItem viewNotes = new JMenu("View Detective Notes");
 	private JMenuItem exit = new JMenu("Exit");
+	
+	
 
 	public ClueGame(String legend, String layout, String players, String weapons) {
 		this.legend = legend;
@@ -57,6 +62,8 @@ public class ClueGame extends JFrame {
 		this.loadConfigFiles();
 		this.add(board, BorderLayout.CENTER);
 		menuBar = new JMenuBar();
+		myCards = new MyCardsPanel(this.getHumanPlayer().getCards());
+		this.add(myCards, BorderLayout.EAST);
 		file = new JMenu("File");
 		viewNotes = new JMenu("View Detective Notes");
 		exit = new JMenu("Exit");
@@ -82,7 +89,10 @@ public class ClueGame extends JFrame {
 		humanPlayer = new HumanPlayer();
 		this.loadConfigFiles();
 		this.add(board, BorderLayout.CENTER);
+		this.deal();
 		menuBar = new JMenuBar();
+		myCards = new MyCardsPanel(this.getHumanPlayer().getCards());
+		this.add(myCards, BorderLayout.EAST);
 		file = new JMenu("File");
 		viewNotes = createDetectiveNotesView();
 		exit = createFileExitItem();

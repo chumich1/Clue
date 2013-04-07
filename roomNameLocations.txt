@@ -1,6 +1,6 @@
 Conservatory,3,2
 Kitchen,12,2
-Ballroom,2,23
+Banana Stand,2,23
 Billiard Room,0,10
 Library,14,17
 Study,5,16

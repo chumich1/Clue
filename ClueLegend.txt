@@ -1,6 +1,6 @@
 C, Conservatory
 K, Kitchen
-B, Ballroom
+B, Banana Stand
 R, Billiard room
 L, Library
 S, Study

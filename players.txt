@@ -1,5 +1,5 @@
 +Bob Lob Lah,Yellow,9,0
-Colonel Mustard,Orange,0,19
-Miss Scarlet,Red,19,11
-Mr. Green,Green,5,6
-Mr. White,Blue,0,6
+Lucille Bluth,Orange,0,19
+Lindsay Bluth Fünke,Red,19,11
+Tobias Fünke,Green,5,6
+Steve Holt,Blue,0,6

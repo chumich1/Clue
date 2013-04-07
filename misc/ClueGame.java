@@ -159,6 +159,7 @@ public class ClueGame extends JFrame {
 		String[] peopleSplit;
 		while(peopleFile.hasNextLine()) {
 			peopleSplit = peopleFile.nextLine().split(",");
+			System.out.println(peopleSplit.length);
 			if(peopleSplit[0].charAt(0) == '+') {
 				humanPlayer = new HumanPlayer(peopleSplit[0].substring(1), peopleSplit[1], Integer.parseInt(peopleSplit[2]), 
 						Integer.parseInt(peopleSplit[3]));

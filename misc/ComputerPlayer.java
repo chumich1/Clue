@@ -43,15 +43,20 @@ public class ComputerPlayer extends Player {
 			if (selection.isRoom()) {
 				RoomCell room = (RoomCell) selection;
 				if (room.getRoomClassifier() != lastRoomVisited) {
+					lastRoomVisited = room.getRoomClassifier();
 					return selection;
 				}
 			}
 		}
 		Random generator = new Random();
 		int random = generator.nextInt();
-		random = Math.abs(random % targets.size());
-		Object[] targArr =  targets.toArray();
-		return (BoardCell) targArr[random];
+		if(targets.size() > 0){
+			random = Math.abs(random % targets.size());
+			Object[] targArr =  targets.toArray();
+			return (BoardCell) targArr[random];
+		}
+		
+		return null;
 	}
 
 	public ComputerPlayer(String name, String color, int row, int column) {

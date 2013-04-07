@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import board.Board;
+import board.BoardCell;
 
 import misc.Card.CardType;
 
@@ -26,7 +28,8 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String args[]) {
 		ClueGame thisGame = new ClueGame();
-		thisGame.update();
+		while(true)
+			thisGame.update();
 	}
 
 	private ArrayList<Card> deck;
@@ -41,6 +44,9 @@ public class ClueGame extends JFrame {
 	private String weapons;
 	private DetectiveNotes these;
 	private MyCardsPanel myCards;
+	private Random rand = new Random();;
+	
+	private JPanel controller;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu file = new JMenu("File");
@@ -60,10 +66,14 @@ public class ClueGame extends JFrame {
 		humanPlayer = new HumanPlayer();
 		board = new Board(layout, legend);
 		this.loadConfigFiles();
+		board.calcAdjacencies();
+		update();
 		this.add(board, BorderLayout.CENTER);
 		menuBar = new JMenuBar();
 		myCards = new MyCardsPanel(this.getHumanPlayer().getCards());
 		this.add(myCards, BorderLayout.EAST);
+		controller = new ControlGUI(this);
+		this.add(controller, BorderLayout.SOUTH);
 		file = new JMenu("File");
 		viewNotes = new JMenu("View Detective Notes");
 		exit = new JMenu("Exit");
@@ -71,10 +81,11 @@ public class ClueGame extends JFrame {
 		file.add(exit);
 		menuBar.add(file);
 		this.add(menuBar, BorderLayout.NORTH);
-		this.setSize(new Dimension(800, 800));
+		this.setSize(new Dimension(1100, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
+		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
 	}
 	
 	public ClueGame() {
@@ -88,6 +99,8 @@ public class ClueGame extends JFrame {
 		cpuPlayers = new ArrayList<ComputerPlayer>();
 		humanPlayer = new HumanPlayer();
 		this.loadConfigFiles();
+		board.calcAdjacencies();
+		update();
 		this.add(board, BorderLayout.CENTER);
 		this.deal();
 		menuBar = new JMenuBar();
@@ -100,11 +113,51 @@ public class ClueGame extends JFrame {
 		file.add(exit);
 		menuBar.add(file);
 		this.add(menuBar, BorderLayout.NORTH);
-		this.setSize(new Dimension(800, 800));
+		controller = new ControlGUI(this);
+		this.add(controller, BorderLayout.SOUTH);
+		this.setSize(new Dimension(1100, 800));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("The Game of Clue");
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
+		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
+	}
+	
+	public void manageTurn(){
+		if(whosTurn == null)
+			whosTurn = humanPlayer;
+		if(whosTurn.equals(humanPlayer)) {
+			takeHumanTurn(humanPlayer);
+			whosTurn = cpuPlayers.get(0);
+		} else {
+			takeComputerTurn((ComputerPlayer) whosTurn);
+			int newIndex = cpuPlayers.indexOf(whosTurn) + 1;
+			if(newIndex < cpuPlayers.size())
+				whosTurn = cpuPlayers.get(newIndex);
+			else
+				whosTurn = humanPlayer;
+		}
+		board.paintComponent(board.getGraphics());
+	}
+	
+	public void takeComputerTurn(ComputerPlayer currentPlayer){
+		int roll = rand.nextInt(6)+1;
+		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+		BoardCell thisLocation = currentPlayer.pickLocation(board.getTargets());
+		currentPlayer.setLocation(board, thisLocation);
+		
+		//Finish later
+		/*if(thisLocation.isDoorway())
+		{
+			handleSuggestion(currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board));
+		}*/
+		
+	}
+	
+	public void takeHumanTurn(HumanPlayer currentPlayer){
+		int roll = rand.nextInt(6)+1;
+		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+		
 	}
 	
 	private JMenuItem createFileExitItem() {
@@ -132,8 +185,7 @@ public class ClueGame extends JFrame {
 	}
 	
 	public void update() {
-		while(true)
-			drawPlayers(this.getGraphics());
+		drawPlayers(this.getGraphics());
 	}
 
 	public void drawPlayers(Graphics g) {
@@ -225,6 +277,7 @@ public class ClueGame extends JFrame {
 		boolean weaponInSolution = false;
 		boolean personInSolution = false;
 		boolean roomInSolution = false;
+		Collections.shuffle(deck);
 		for(Card a : deck) {
 			CardType theType = a.getCardType();
 			if((!weaponInSolution)&&(theType==CardType.WEAPON)) {

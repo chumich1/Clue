@@ -5,6 +5,7 @@
  */
 package board;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 // BoardCell class body
@@ -27,5 +28,14 @@ public abstract class BoardCell {
 	
 	abstract void draw(Graphics g, Board b);
 	
+	public void drawHighlighted(Graphics g, Board b) {
+		g.setColor(Color.CYAN);
+		int index = b.getCells().indexOf(this);
+		row = index/b.getNumColumns();
+		column = index % b.getNumColumns();
+		g.fillRect(column*b.getCellWidth(), row*b.getCellHeight(), b.getCellWidth(), b.getCellHeight());
+		g.setColor(Color.BLACK);
+		g.drawRect(column*b.getCellWidth(), row*b.getCellHeight(), b.getCellWidth(), b.getCellHeight());
+	}
 	
 }

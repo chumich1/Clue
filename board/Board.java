@@ -76,6 +76,7 @@ public class Board extends JPanel {
 		// Set up the targets as a blank set
 		targets = new HashSet<BoardCell>();
 		loadRoomNames("roomNameLocations.txt");
+		calcAdjacencies();
 	}
 	
 	// Initializes default values of cells, rooms, numRows, and numColumns
@@ -105,12 +106,16 @@ public class Board extends JPanel {
 				currentX = 0;
 			}
 		}
+		if(targets != null)
+			for(BoardCell a : targets)
+				a.drawHighlighted(g, this);
 		for(Player p: theseGuys){
 			p.draw(g, cellWidth, cellHeight);
 		}
 		for(RoomNames r: roomNames) {
 			r.drawRoomName(g, this);
 		}
+		
 	}
 
 	// Method loadConfigFiles relies on two other functions to finish initializing the board

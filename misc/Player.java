@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import board.Board;
+import board.BoardCell;
 import misc.Card.CardType;
 
 import javax.swing.JComponent;
@@ -46,6 +47,12 @@ public class Player extends JComponent {
 		if(cards.contains(new Card(weapon, CardType.WEAPON)))
 			return cards.get(cards.indexOf(new Card(weapon, CardType.WEAPON)));
 		return null;
+	}
+	
+	public void setLocation(Board board, BoardCell thisLocation) {
+		int index = board.getCells().indexOf(thisLocation);
+		row = index / board.getNumColumns();
+		column = index % board.getNumColumns();
 	}
 	
 	public char getRoom() {

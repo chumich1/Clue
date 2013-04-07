@@ -27,9 +27,9 @@ public class GameSetupTests {
 		testGame.loadPeople();
 		Assert.assertEquals(new HumanPlayer("Bob Lob Lah","Yellow",9,0), testGame.getHumanPlayer());
 		// Tests person at beginning
-		Assert.assertEquals(new ComputerPlayer("Colonel Mustard","Orange",0,19), testGame.getCpuPlayers().get(0));
+		Assert.assertEquals(new ComputerPlayer("Lucille Bluth","Orange",0,19), testGame.getCpuPlayers().get(0));
 		// Tests person at end
-		Assert.assertEquals(new ComputerPlayer("Mr. White","Blue",0,6), testGame.getCpuPlayers().get(3));
+		Assert.assertEquals(new ComputerPlayer("Steve Holt","Blue",0,6), testGame.getCpuPlayers().get(3));
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class GameSetupTests {
 		// Tests one room
 		Assert.assertTrue(testGame.getDeck().contains(new Card("Dining Room", CardType.ROOM)));
 		// Tests one weapon
-		Assert.assertTrue(testGame.getDeck().contains(new Card("Miss Scarlet", CardType.PERSON)));
+		Assert.assertTrue(testGame.getDeck().contains(new Card("Lindsay Bluth Fünke", CardType.PERSON)));
 		// Tests one person
 		Assert.assertTrue(testGame.getDeck().contains(new Card("drywall", CardType.WEAPON)));
 	}

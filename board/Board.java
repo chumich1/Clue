@@ -9,6 +9,9 @@
 package board;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -41,20 +44,13 @@ public class Board extends JPanel {
 	private int currentY;
 	private int cellWidth;
 	private int cellHeight;
+	private Point point;
+	public DotsListener theMouse;
 	private ArrayList<RoomNames> roomNames;
-	
 	private ArrayList<Player> theseGuys;
-
-	// Filepaths for the configuration files
 	private String csvFilepath, legendFilepath;
-
-	// Array used to keep track of visited cells when the fucntion calcAdjacencies is called
 	private boolean visited[];
-
-	// Map that lists the adjacencies between cells
 	private Map<Integer, LinkedList<Integer>> adjacencyLists;
-
-	// Set of tragets to be determined when calculated
 	private Set<BoardCell> targets;
 
 	// Default constructor for board. Simply initializes the values, nothing else
@@ -89,6 +85,7 @@ public class Board extends JPanel {
 		numRows = 0;
 		numColumns = 0;
 		theseGuys = new ArrayList<Player>();
+		theMouse = new DotsListener();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -116,6 +113,64 @@ public class Board extends JPanel {
 			r.drawRoomName(g, this);
 		}
 		
+	}
+	
+	private class DotsListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		
+			point = (e.getPoint());
+			repaint();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	public boolean checkAvailability(Player player) {
+		while(point == null);
+		System.out.println(point.x);
+		int row;
+		int column;
+		for(BoardCell a: targets) {
+			column = cells.indexOf(a) % numColumns;
+			row = cells.indexOf(a) / numColumns;
+			if((point.x >= column*cellWidth)&&(point.x < (column+1)*cellWidth)) {
+				if((point.y >= row*cellHeight)&&(point.y < (row+1)*cellHeight)) {
+					player.setLocation(this, a);
+					point = null;
+					repaint();
+					return true;
+				}
+			}
+		}
+		
+		point = null;
+		repaint();
+		return false;
 	}
 
 	// Method loadConfigFiles relies on two other functions to finish initializing the board
@@ -451,6 +506,14 @@ public class Board extends JPanel {
 
 	public void setTheseGuys(ArrayList<Player> theseGuys) {
 		this.theseGuys = theseGuys;
+	}
+
+	public Point getPoint() {
+		return point;
+	}
+	
+	public void resetPoint() {
+		point = null;
 	}
 
 }

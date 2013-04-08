@@ -46,7 +46,7 @@ public class ClueGame extends JFrame {
 	private MyCardsPanel myCards;
 	private Random rand = new Random();;
 	
-	private JPanel controller;
+	private ControlGUI controller;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu file = new JMenu("File");
@@ -137,7 +137,7 @@ public class ClueGame extends JFrame {
 			else
 				whosTurn = humanPlayer;
 		}
-		board.paintComponent(board.getGraphics());
+		repaint();
 	}
 	
 	public void takeComputerTurn(ComputerPlayer currentPlayer){
@@ -151,13 +151,19 @@ public class ClueGame extends JFrame {
 		{
 			handleSuggestion(currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board));
 		}*/
-		
+		controller.updateDie(roll);
+		controller.updateTurn(currentPlayer.getName());
 	}
 	
 	public void takeHumanTurn(HumanPlayer currentPlayer){
 		int roll = rand.nextInt(6)+1;
 		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
-		
+		controller.updateDie(roll);
+		controller.updateTurn(currentPlayer.getName());
+		boolean passed = false;
+		do {
+			passed = board.checkAvailability(currentPlayer);
+		} while (!passed);
 	}
 	
 	private JMenuItem createFileExitItem() {

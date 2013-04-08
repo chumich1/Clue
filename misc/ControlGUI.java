@@ -24,6 +24,22 @@ public class ControlGUI extends JPanel {
 		thisGame = c;
 	}
 	
+	public void updateDie(int roll) {
+		die.setText(Integer.toString(roll));
+	}
+	
+	public void updateTurn(String name) {
+		whoseTurn.setText(name);
+	}
+	
+	public void updateGuess(String theGuess) {
+		guess.setText(theGuess);
+	}
+	
+	public void updateResult(String result) {
+		guessResult.setText(result);
+	}
+	
 	private void createLayout() {
 		JPanel mainHolder = new JPanel();
 		JPanel whosTurnStuff = new JPanel();

@@ -127,6 +127,8 @@ public class ClueGame extends JFrame {
 		if(whosTurn == null)
 			whosTurn = humanPlayer;
 		if(whosTurn.equals(humanPlayer)) {
+			int humanRow = humanPlayer.getRow();
+			int humanColumn = humanPlayer.getColumn();
 			takeHumanTurn(humanPlayer);
 			whosTurn = cpuPlayers.get(0);
 		} else {

@@ -28,7 +28,7 @@ import misc.Player;
 
 // Board class body
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 
 
 	// The list of cells for the board
@@ -45,7 +45,6 @@ public class Board extends JPanel {
 	private int cellWidth;
 	private int cellHeight;
 	private Point point;
-	public DotsListener theMouse;
 	private ArrayList<RoomNames> roomNames;
 	private ArrayList<Player> theseGuys;
 	private String csvFilepath, legendFilepath;
@@ -85,7 +84,8 @@ public class Board extends JPanel {
 		numRows = 0;
 		numColumns = 0;
 		theseGuys = new ArrayList<Player>();
-		theMouse = new DotsListener();
+		addMouseListener(this);
+
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -115,40 +115,7 @@ public class Board extends JPanel {
 		
 	}
 	
-	private class DotsListener implements MouseListener {
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		
-			point = (e.getPoint());
-			repaint();
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
+	
 	
 	public boolean checkAvailability(Player player) {
 		while(point == null);
@@ -505,6 +472,39 @@ public class Board extends JPanel {
 	
 	public void resetPoint() {
 		point = null;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		point = (e.getPoint());
+		System.out.println(point.x + " " + point.y);
+		repaint();
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

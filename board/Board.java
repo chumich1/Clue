@@ -51,6 +51,7 @@ public class Board extends JPanel implements MouseListener {
 	private boolean visited[];
 	private Map<Integer, LinkedList<Integer>> adjacencyLists;
 	private Set<BoardCell> targets;
+	private boolean enabled;
 
 	// Default constructor for board. Simply initializes the values, nothing else
 	public Board() {
@@ -84,6 +85,7 @@ public class Board extends JPanel implements MouseListener {
 		numRows = 0;
 		numColumns = 0;
 		theseGuys = new ArrayList<Player>();
+		enabled = false;
 		addMouseListener(this);
 
 	}
@@ -118,24 +120,36 @@ public class Board extends JPanel implements MouseListener {
 	
 	
 	public boolean checkAvailability(Player player) {
-		while(point == null);
-		System.out.println(point.x);
+		//while(point == null){
+			//System.out.println(point);
+			//repaint();
+		//}
+		//System.out.println(point.x);
+	
 		int row;
 		int column;
+		System.out.println(targets.size());
 		for(BoardCell a: targets) {
-			column = cells.indexOf(a) % numColumns;
+			
+			
 			row = cells.indexOf(a) / numColumns;
+			column = cells.indexOf(a) % (row*numColumns);
+			System.out.println(row+" "+column);
+			System.out.println(column*cellWidth+" "+point.x+" " + (column+1)*cellWidth);
+			System.out.println(row*cellHeight+" "+point.y+" " + (row+1)*cellHeight+"\n");
 			if((point.x >= column*cellWidth)&&(point.x < (column+1)*cellWidth)) {
 				if((point.y >= row*cellHeight)&&(point.y < (row+1)*cellHeight)) {
+					System.out.println("HEY");
 					player.setLocation(this, a);
 					point = null;
 					repaint();
+					enabled = false;
 					return true;
 				}
 			}
 		}
 		
-		point = null;
+		//point = null;
 		repaint();
 		return false;
 	}
@@ -473,15 +487,30 @@ public class Board extends JPanel implements MouseListener {
 	public void resetPoint() {
 		point = null;
 	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	public boolean getEnabled() {
+		return enabled;
+	}
+
+
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+		if(!enabled)
+			return;
+		
 		point = (e.getPoint());
 		System.out.println(point.x + " " + point.y);
 		repaint();
 		
 	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {

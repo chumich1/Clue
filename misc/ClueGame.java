@@ -143,6 +143,7 @@ public class ClueGame extends JFrame {
 	public void takeComputerTurn(ComputerPlayer currentPlayer){
 		int roll = rand.nextInt(6)+1;
 		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+		repaint();
 		BoardCell thisLocation = currentPlayer.pickLocation(board.getTargets());
 		currentPlayer.setLocation(board, thisLocation);
 		
@@ -156,14 +157,17 @@ public class ClueGame extends JFrame {
 	}
 	
 	public void takeHumanTurn(HumanPlayer currentPlayer){
+		board.setEnabled(true);
 		int roll = rand.nextInt(6)+1;
 		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
 		controller.updateDie(roll);
 		controller.updateTurn(currentPlayer.getName());
 		boolean passed = false;
-		//do {
-		//	passed = board.checkAvailability(currentPlayer);
-		//} while (!passed);
+		do {
+			passed = board.checkAvailability(currentPlayer);
+		} while (board.getEnabled());
+		
+		
 	}
 	
 	private JMenuItem createFileExitItem() {

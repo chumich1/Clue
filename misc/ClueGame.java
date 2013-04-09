@@ -161,9 +161,9 @@ public class ClueGame extends JFrame {
 		controller.updateDie(roll);
 		controller.updateTurn(currentPlayer.getName());
 		boolean passed = false;
-		do {
-			passed = board.checkAvailability(currentPlayer);
-		} while (!passed);
+		//do {
+		//	passed = board.checkAvailability(currentPlayer);
+		//} while (!passed);
 	}
 	
 	private JMenuItem createFileExitItem() {

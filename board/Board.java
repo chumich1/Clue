@@ -322,25 +322,15 @@ public class Board extends JPanel {
 
 	// Calculates the adjacencies for every cell on the board, stores them into the adjacency list
 	public void calcAdjacencies() {
-
-		// Create a temporary adjacency
 		LinkedList<Integer> adjacency;
-
-		// For all the cells on the board:
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
-				// Create a blank adjacency list
 				adjacency = new LinkedList<Integer>();
-				// If the current cells is a doorway
 				if(cells.get(calcIndex(i,j)).isDoorway()) {
-					// Create a room cell from the doorway cell so we can use it in the adjacency calculation 
 					RoomCell thisCell = (RoomCell) cells.get(calcIndex(i,j));
-					// Add the adjacencies to the their lists
 					adjacency.add(calcIndex(i + thisCell.getDoorDirection().getX(), j + thisCell.getDoorDirection().getY()));
 				} 
-				// Otherwise, if this cell is not a room
 				else if(!cells.get(calcIndex(i,j)).isRoom()) {
-					// Add the appropriate adjacency based upon the adjacency list function
 					if(adjacencyLogic(i,j,i,j+1))
 						adjacency.add(calcIndex(i,j+1));
 					if(adjacencyLogic(i,j,i,j-1))
@@ -388,6 +378,7 @@ public class Board extends JPanel {
 		
 		// Call calcTargets
 		calcTargets(location, steps);
+		visited[location] = false;
 	}
 	
 	// Does the heavy lifting for startTargets, populates the targets list for a current location given a number of steps

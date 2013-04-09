@@ -148,10 +148,23 @@ public class ClueGame extends JFrame {
 		currentPlayer.setLocation(board, thisLocation);
 		
 		//Finish later
-		/*if(thisLocation.isDoorway())
+		if(thisLocation.isDoorway())
 		{
-			handleSuggestion(currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board));
-		}*/
+			Suggestion compSuggestion = new Suggestion();
+			Card disprove;
+			compSuggestion = currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board);
+			controller.updateGuess(compSuggestion.toString());
+			disprove = this.handleSuggestion(compSuggestion.getPerson().getName(), compSuggestion.getRoom().getName(), compSuggestion.getWeapon().getName(), currentPlayer);
+			if(disprove == null)
+				controller.updateResult(disprove.getName());
+			else
+				controller.updateResult("None");
+			
+			for(ComputerPlayer p: this.cpuPlayers){
+				p.updateSeen(disprove);
+			}
+			
+		}
 		controller.updateDie(roll);
 		controller.updateTurn(currentPlayer.getName());
 	}
@@ -326,11 +339,11 @@ public class ClueGame extends JFrame {
 		}
 		return solution.checkSolution(person, weapon, room);
 	}
-	public Object handleSuggestion(String thePerson, String theRoom, String theWeapon, Player thePlayer) {
+	public Card handleSuggestion(String thePerson, String theRoom, String theWeapon, Player thePlayer) {
 		ArrayList<Player> thesePlayers = new ArrayList<Player>();
 		ArrayList<String> theseStrings = new ArrayList<String>();
 		ArrayList<Card> theseCards = new ArrayList<Card>();
-		Object answer = null;
+		Card answer = null;
 		theseStrings.add(theRoom);
 		theseStrings.add(theWeapon);
 		theseStrings.add(thePerson);

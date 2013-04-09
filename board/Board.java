@@ -148,6 +148,7 @@ public class Board extends JPanel implements MouseListener {
 					point = null;
 					repaint();
 					enabled = false;
+					humanTurn = false;
 					return true;
 				}
 			}

@@ -153,10 +153,28 @@ public class ClueGame extends JFrame {
 			Suggestion compSuggestion = new Suggestion();
 			Card disprove;
 			compSuggestion = currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board);
+		
+			for(ComputerPlayer p: cpuPlayers)
+			{
+				
+			 if(p.getName().equals(compSuggestion.getPerson().getName())){
+				 System.out.println("NOPE");
+				 //need to change setLocation 
+				 p.setLocation(currentPlayer.getLocation());
+				
+			 }
+			}
+			 if(humanPlayer.getName().equals(compSuggestion.getPerson().getName())){
+				 System.out.println("NOPE");
+				 humanPlayer.setLocation(currentPlayer.getLocation());
+				
+			 }
+			 board.paintComponent(board.getGraphics());
 			controller.updateGuess(compSuggestion.toString());
 			disprove = this.handleSuggestion(compSuggestion.getPerson().getName(), compSuggestion.getRoom().getName(), compSuggestion.getWeapon().getName(), currentPlayer);
-			if(disprove == null)
+			if(disprove != null){
 				controller.updateResult(disprove.getName());
+			}
 			else
 				controller.updateResult("None");
 			

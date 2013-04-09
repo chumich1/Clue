@@ -160,14 +160,16 @@ public class ClueGame extends JFrame {
 		board.setEnabled(true);
 		int roll = rand.nextInt(6)+1;
 		board.startTargets(board.calcIndex(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+		board.repaint();
 		controller.updateDie(roll);
 		controller.updateTurn(currentPlayer.getName());
-		boolean passed = false;
-		do {
-			passed = board.checkAvailability(currentPlayer);
-		} while (board.getEnabled());
-		
-		
+		board.setHumanTurn(true);
+		board.setHuman(currentPlayer);
+//		boolean passed = false;
+//		do {
+//			passed = board.checkAvailability(currentPlayer);
+//		} while (board.getEnabled());
+//		
 	}
 	
 	private JMenuItem createFileExitItem() {

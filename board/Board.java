@@ -52,9 +52,12 @@ public class Board extends JPanel implements MouseListener {
 	private Map<Integer, LinkedList<Integer>> adjacencyLists;
 	private Set<BoardCell> targets;
 	private boolean enabled;
+	private Player human;
+	private boolean humanTurn;
 
 	// Default constructor for board. Simply initializes the values, nothing else
 	public Board() {
+		humanTurn = false;
 		// Initialize cells, rooms, numRows, numColumns
 		initialize();
 		loadRoomNames("roomNameLocations.txt");
@@ -62,6 +65,7 @@ public class Board extends JPanel implements MouseListener {
 
 	// Parameterized constructor, sets all the fields of board using the configuration files
 	public Board(String csv, String legend) {
+		humanTurn = false;
 		// Initialize cells, rooms, numRows, numColumns
 		initialize();
 		// Create the filepaths for the configuration files
@@ -105,7 +109,7 @@ public class Board extends JPanel implements MouseListener {
 				currentX = 0;
 			}
 		}
-		if(targets != null)
+		if((targets != null)&&humanTurn)
 			for(BoardCell a : targets)
 				a.drawHighlighted(g, this);
 		for(Player p: theseGuys){
@@ -128,15 +132,15 @@ public class Board extends JPanel implements MouseListener {
 	
 		int row;
 		int column;
-		System.out.println(targets.size());
+//		System.out.println(targets.size());
 		for(BoardCell a: targets) {
 			
 			
 			row = cells.indexOf(a) / numColumns;
 			column = cells.indexOf(a) % (row*numColumns);
-			System.out.println(row+" "+column);
-			System.out.println(column*cellWidth+" "+point.x+" " + (column+1)*cellWidth);
-			System.out.println(row*cellHeight+" "+point.y+" " + (row+1)*cellHeight+"\n");
+			System.out.println("Row:" + row + " Column:" + column);
+			System.out.println("cellWidth: " + cellWidth + " point.x:" + point.x);
+			System.out.println("cellHeight: " + cellHeight + " point.y:" + point.y);
 			if((point.x >= column*cellWidth)&&(point.x < (column+1)*cellWidth)) {
 				if((point.y >= row*cellHeight)&&(point.y < (row+1)*cellHeight)) {
 					System.out.println("HEY");
@@ -149,7 +153,7 @@ public class Board extends JPanel implements MouseListener {
 			}
 		}
 		
-		//point = null;
+		point = null;
 		repaint();
 		return false;
 	}
@@ -507,7 +511,13 @@ public class Board extends JPanel implements MouseListener {
 		
 		point = (e.getPoint());
 		System.out.println(point.x + " " + point.y);
+		System.out.println("Cell width:" + cellWidth);
+		System.out.println("Cell height: " + cellHeight);
 		repaint();
+		
+		if(humanTurn) {
+			humanTurn = !checkAvailability(human);
+		}
 		
 	}
 
@@ -535,5 +545,23 @@ public class Board extends JPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public boolean isHumanTurn() {
+		return humanTurn;
+	}
+
+	public void setHumanTurn(boolean humanTurn) {
+		this.humanTurn = humanTurn;
+	}
+
+	public Player getHuman() {
+		return human;
+	}
+
+	public void setHuman(Player human) {
+		this.human = human;
+	}
+	
+	
 
 }

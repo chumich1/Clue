@@ -137,7 +137,10 @@ public class Board extends JPanel implements MouseListener {
 			
 			
 			row = cells.indexOf(a) / numColumns;
-			column = cells.indexOf(a) % (row*numColumns);
+			if(row == 0)
+				column = cells.indexOf(a);
+			else
+				column = cells.indexOf(a) % (row*numColumns);
 			System.out.println("Row:" + row + " Column:" + column);
 			System.out.println("cellWidth: " + cellWidth + " point.x:" + point.x);
 			System.out.println("cellHeight: " + cellHeight + " point.y:" + point.y);

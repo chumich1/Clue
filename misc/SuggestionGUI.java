@@ -19,7 +19,7 @@ public class SuggestionGUI extends JDialog {
 	private JComboBox weapons;
 	private JButton submit;
 	
-	public SuggestionGUI(ArrayList<Card> cards) {
+	public SuggestionGUI(ArrayList<Card> cards, String room) {
 		this.setLayout(new GridLayout(0, 1));
 		people = new JComboBox();
 		rooms = new JComboBox();
@@ -32,17 +32,13 @@ public class SuggestionGUI extends JDialog {
 				weapons.addItem(a.getName());
 			}
 		}
+		rooms.addItem(room);
 		this.add(people);
 		this.add(rooms);
 		this.add(weapons);
 		this.add(submit);
 		this.setSize(400, 400);
-	}
-
-	public void createSuggestion(String room) {
-		rooms = new JComboBox();
-		rooms.addItem(room);
-		this.setVisible(true);
+		setVisible(true);
 	}
 	
 	public ArrayList<String> getSuggestion() {
@@ -50,7 +46,6 @@ public class SuggestionGUI extends JDialog {
 		guesses.add(people.getSelectedItem().toString());
 		guesses.add(rooms.getSelectedItem().toString());
 		guesses.add(weapons.getSelectedItem().toString());
-		this.setVisible(false);
 		return guesses;
 	}
 	

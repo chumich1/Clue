@@ -92,7 +92,6 @@ public class ClueGame extends JFrame {
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
 		this.loadDeck();
-		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public ClueGame() {
@@ -131,7 +130,6 @@ public class ClueGame extends JFrame {
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
 		this.loadDeck();
-		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public void manageTurn(){
@@ -235,7 +233,7 @@ public class ClueGame extends JFrame {
 		if(board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom()){
 			firstTurn = true;
 			suggestionOver = false;
-			suggestion.createSuggestion(board.getRoomCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).getRoomName());
+			suggestion = new SuggestionGUI(deck, board.getRoomCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).getRoomName());
 		}		
 	}
 	

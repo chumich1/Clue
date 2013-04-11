@@ -135,8 +135,8 @@ public class ClueGame extends JFrame {
 	}
 	
 	public void manageTurn(){
-		if(!suggestionOver)
-			return;
+//		if(!suggestionOver)
+//			return;
 		if(whosTurn == null)
 			whosTurn = humanPlayer;
 		if(whosTurn.equals(humanPlayer)) {
@@ -194,19 +194,24 @@ public class ClueGame extends JFrame {
 				controller.updateResult("None");
 			
 			for(ComputerPlayer p: this.cpuPlayers){
+				if(p.getSeen().contains(disprove)){
+					System.out.println("YUP");
+					break;
+				}
 				p.updateSeen(disprove);
 			}
-			System.out.println(currentPlayer.getKnownCards().size());
 			if(currentPlayer.getKnownCards().size()  >= (deck.size() - 3)){
 	
 				boolean isTrue = false;
-				Solution accusation = new Solution(currentPlayer.findValidCard(currentPlayer.getCards(), CardType.PERSON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.WEAPON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.ROOM).getName());
+				Solution accusation = currentPlayer.createAccusation(deck, closetCards);
+				 //new Solution(currentPlayer.findValidCard(currentPlayer.getCards(), CardType.PERSON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.WEAPON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.ROOM).getName());
 				isTrue = this.checkAccusation(accusation);
 				if(isTrue)
 					controller.updateResult("GAME OVER: "+ currentPlayer.getName()+" WINS");
 				
 				else
 				{
+					System.out.println(closetCards.get(0).getName()+" "+closetCards.get(1).getName()+" "+closetCards.get(2).getName()+" ");
 					System.out.println(currentPlayer.getName()+" is out of the game.");
 					cpuPlayers.remove(currentPlayer);
 					controller.updateGuess(accusation.toString());

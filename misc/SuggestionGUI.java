@@ -38,7 +38,7 @@ public class SuggestionGUI extends JDialog {
 		this.add(submit);
 		this.setSize(400, 400);
 	}
-	
+
 	public void createSuggestion(String room) {
 		rooms = new JComboBox();
 		rooms.addItem(room);

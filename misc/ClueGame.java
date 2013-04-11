@@ -45,7 +45,8 @@ public class ClueGame extends JFrame {
 	private String weapons;
 	private DetectiveNotes these;
 	private MyCardsPanel myCards;
-	private Random rand = new Random();;
+	private Random rand = new Random();
+	private SuggestionGUI suggestion;
 	
 	private ControlGUI controller;
 	
@@ -87,9 +88,11 @@ public class ClueGame extends JFrame {
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
+		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public ClueGame() {
+		
 		legend = "legend.txt";
 		layout = "RoomLayout.csv";
 		players = "players.txt";
@@ -122,6 +125,7 @@ public class ClueGame extends JFrame {
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
+		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public void manageTurn(){
@@ -213,6 +217,9 @@ public class ClueGame extends JFrame {
 		controller.updateTurn(currentPlayer.getName());
 		board.setHumanTurn(true);
 		board.setHuman(currentPlayer);
+		if(board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom()){
+			suggestion.getSuggestion(board.getRoomCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).getRoomName());
+		}
 //		boolean passed = false;
 //		do {
 //			passed = board.checkAvailability(currentPlayer);

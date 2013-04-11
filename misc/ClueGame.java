@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -158,15 +159,15 @@ public class ClueGame extends JFrame {
 			{
 				
 			 if(p.getName().equals(compSuggestion.getPerson().getName())){
-				 System.out.println("NOPE");
+
 				 //need to change setLocation 
-				 p.setLocation(currentPlayer.getLocation());
+				 p.setLocation(board, board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()));
 				
 			 }
 			}
 			 if(humanPlayer.getName().equals(compSuggestion.getPerson().getName())){
 				 System.out.println("NOPE");
-				 humanPlayer.setLocation(currentPlayer.getLocation());
+				 humanPlayer.setLocation(board, board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()));
 				
 			 }
 			 board.paintComponent(board.getGraphics());
@@ -180,6 +181,22 @@ public class ClueGame extends JFrame {
 			
 			for(ComputerPlayer p: this.cpuPlayers){
 				p.updateSeen(disprove);
+			}
+			System.out.println(currentPlayer.getKnownCards().size());
+			if(currentPlayer.getKnownCards().size()  >= (deck.size() - 3)){
+	
+				boolean isTrue = false;
+				Solution accusation = new Solution(currentPlayer.findValidCard(currentPlayer.getCards(), CardType.PERSON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.WEAPON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.ROOM).getName());
+				isTrue = this.checkAccusation(accusation);
+				if(isTrue)
+					controller.updateResult("GAME OVER: "+ currentPlayer.getName()+" WINS");
+				
+				else
+				{
+					System.out.println(currentPlayer.getName()+" is out of the game.");
+					cpuPlayers.remove(currentPlayer);
+					controller.updateGuess(accusation.toString());
+				}
 			}
 			
 		}

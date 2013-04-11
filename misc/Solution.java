@@ -22,4 +22,10 @@ public class Solution {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Solution [person=" + person + ", weapon=" + weapon + ", room="
+				+ room + "]";
+	}
 }

@@ -137,17 +137,17 @@ public class Board extends JPanel implements MouseListener {
 			
 			
 			row = cells.indexOf(a) / numColumns;
-			column = cells.indexOf(a) % (row*numColumns);
-			System.out.println("Row:" + row + " Column:" + column);
-			System.out.println("cellWidth: " + cellWidth + " point.x:" + point.x);
-			System.out.println("cellHeight: " + cellHeight + " point.y:" + point.y);
+			if(row == 0)
+				column = cells.indexOf(a);
+			else
+				column = cells.indexOf(a) % (row*numColumns);
 			if((point.x >= column*cellWidth)&&(point.x < (column+1)*cellWidth)) {
 				if((point.y >= row*cellHeight)&&(point.y < (row+1)*cellHeight)) {
-					System.out.println("HEY");
 					player.setLocation(this, a);
 					point = null;
 					repaint();
 					enabled = false;
+					humanTurn = false;
 					return true;
 				}
 			}

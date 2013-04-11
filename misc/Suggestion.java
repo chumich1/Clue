@@ -2,6 +2,10 @@ package misc;
 
 public class Suggestion {
 	
+	@Override
+	public String toString() {
+		return (person.getName() + " in the "+ room.getName()+ " with the "+ weapon.getName());
+	}
 	private Card person;
 	private Card room;
 	private Card weapon;

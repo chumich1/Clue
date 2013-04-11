@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -44,7 +45,8 @@ public class ClueGame extends JFrame {
 	private String weapons;
 	private DetectiveNotes these;
 	private MyCardsPanel myCards;
-	private Random rand = new Random();;
+	private Random rand = new Random();
+	private SuggestionGUI suggestion;
 	
 	private ControlGUI controller;
 	
@@ -52,10 +54,13 @@ public class ClueGame extends JFrame {
 	private JMenu file = new JMenu("File");
 	private JMenuItem viewNotes = new JMenu("View Detective Notes");
 	private JMenuItem exit = new JMenu("Exit");
-	
+	private boolean suggestionOver;
+	private boolean firstTurn;
 	
 
 	public ClueGame(String legend, String layout, String players, String weapons) {
+		suggestionOver = true;
+		firstTurn = false;
 		this.legend = legend;
 		this.layout = layout;
 		this.players = players;
@@ -86,9 +91,13 @@ public class ClueGame extends JFrame {
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
+		this.loadDeck();
+		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public ClueGame() {
+		suggestionOver = true;
+		firstTurn = false;
 		legend = "legend.txt";
 		layout = "RoomLayout.csv";
 		players = "players.txt";
@@ -121,9 +130,13 @@ public class ClueGame extends JFrame {
 		this.setVisible(true);
 		these = new DetectiveNotes(this.getDeck());
 		WelcomeSplash displayPlayer = new WelcomeSplash(humanPlayer);
+		this.loadDeck();
+		suggestion = new SuggestionGUI(deck);
 	}
 	
 	public void manageTurn(){
+		if(!suggestionOver)
+			return;
 		if(whosTurn == null)
 			whosTurn = humanPlayer;
 		if(whosTurn.equals(humanPlayer)) {
@@ -150,10 +163,57 @@ public class ClueGame extends JFrame {
 		currentPlayer.setLocation(board, thisLocation);
 		
 		//Finish later
-		/*if(thisLocation.isDoorway())
+		if(thisLocation.isDoorway())
 		{
-			handleSuggestion(currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board));
-		}*/
+			Suggestion compSuggestion = new Suggestion();
+			Card disprove;
+			compSuggestion = currentPlayer.createSuggestion(currentPlayer.getRow(), currentPlayer.getColumn(), this.deck, board);
+		
+			for(ComputerPlayer p: cpuPlayers)
+			{
+				
+			 if(p.getName().equals(compSuggestion.getPerson().getName())){
+
+				 //need to change setLocation 
+				 p.setLocation(board, board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()));
+				
+			 }
+			}
+			 if(humanPlayer.getName().equals(compSuggestion.getPerson().getName())){
+				 System.out.println("NOPE");
+				 humanPlayer.setLocation(board, board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()));
+				
+			 }
+			 board.paintComponent(board.getGraphics());
+			controller.updateGuess(compSuggestion.toString());
+			disprove = this.handleSuggestion(compSuggestion.getPerson().getName(), compSuggestion.getRoom().getName(), compSuggestion.getWeapon().getName(), currentPlayer);
+			if(disprove != null){
+				controller.updateResult(disprove.getName());
+			}
+			else
+				controller.updateResult("None");
+			
+			for(ComputerPlayer p: this.cpuPlayers){
+				p.updateSeen(disprove);
+			}
+			System.out.println(currentPlayer.getKnownCards().size());
+			if(currentPlayer.getKnownCards().size()  >= (deck.size() - 3)){
+	
+				boolean isTrue = false;
+				Solution accusation = new Solution(currentPlayer.findValidCard(currentPlayer.getCards(), CardType.PERSON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.WEAPON).getName(), currentPlayer.findValidCard(currentPlayer.getCards(), CardType.ROOM).getName());
+				isTrue = this.checkAccusation(accusation);
+				if(isTrue)
+					controller.updateResult("GAME OVER: "+ currentPlayer.getName()+" WINS");
+				
+				else
+				{
+					System.out.println(currentPlayer.getName()+" is out of the game.");
+					cpuPlayers.remove(currentPlayer);
+					controller.updateGuess(accusation.toString());
+				}
+			}
+			
+		}
 		controller.updateDie(roll);
 		controller.updateTurn(currentPlayer.getName());
 	}
@@ -167,11 +227,11 @@ public class ClueGame extends JFrame {
 		controller.updateTurn(currentPlayer.getName());
 		board.setHumanTurn(true);
 		board.setHuman(currentPlayer);
-//		boolean passed = false;
-//		do {
-//			passed = board.checkAvailability(currentPlayer);
-//		} while (board.getEnabled());
-//		
+		if(board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom()){
+			firstTurn = true;
+			suggestionOver = false;
+			suggestion.createSuggestion(board.getRoomCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).getRoomName());
+		}		
 	}
 	
 	private JMenuItem createFileExitItem() {
@@ -199,6 +259,19 @@ public class ClueGame extends JFrame {
 	}
 	
 	public void update() {
+		if(suggestionOver&&firstTurn) {
+			ArrayList<String> theseFellas = suggestion.getSuggestion();
+			Card disprove = this.handleSuggestion(theseFellas.get(0), theseFellas.get(1), theseFellas.get(2), humanPlayer);
+			if(disprove != null){
+				controller.updateResult(disprove.getName());
+				for(ComputerPlayer p: this.cpuPlayers){
+					p.updateSeen(disprove);
+				}
+			}
+			else
+				controller.updateResult("None");
+			firstTurn = false;
+		}
 		drawPlayers(this.getGraphics());
 	}
 
@@ -328,11 +401,11 @@ public class ClueGame extends JFrame {
 		}
 		return solution.checkSolution(person, weapon, room);
 	}
-	public Object handleSuggestion(String thePerson, String theRoom, String theWeapon, Player thePlayer) {
+	public Card handleSuggestion(String thePerson, String theRoom, String theWeapon, Player thePlayer) {
 		ArrayList<Player> thesePlayers = new ArrayList<Player>();
 		ArrayList<String> theseStrings = new ArrayList<String>();
 		ArrayList<Card> theseCards = new ArrayList<Card>();
-		Object answer = null;
+		Card answer = null;
 		theseStrings.add(theRoom);
 		theseStrings.add(theWeapon);
 		theseStrings.add(thePerson);

@@ -101,7 +101,8 @@ public class ControlGUI extends JPanel {
 		class MenuItemListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				thisGame.manageTurn();
+				if(!thisGame.getBoard().isHumanTurn())
+					thisGame.manageTurn();
 			}
 		}
 		item.addActionListener(new MenuItemListener());

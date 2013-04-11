@@ -54,7 +54,7 @@ public class ClueGame extends JFrame {
 	private JMenu file = new JMenu("File");
 	private JMenuItem viewNotes = new JMenu("View Detective Notes");
 	private JMenuItem exit = new JMenu("Exit");
-	private boolean suggestionOver;
+	public boolean suggestionOver;
 	private boolean firstTurn;
 	
 
@@ -268,7 +268,8 @@ public class ClueGame extends JFrame {
 	public void update() {
 		if(suggestionOver&&firstTurn) {
 			ArrayList<String> theseFellas = suggestion.getSuggestion();
-			Card disprove = this.handleSuggestion(theseFellas.get(0), theseFellas.get(1), theseFellas.get(2), humanPlayer);
+			System.out.println(theseFellas.get(0).toString() + theseFellas.get(1).toString() + theseFellas.get(2).toString());
+			Card disprove = this.handleSuggestion(theseFellas.get(0).toString(), theseFellas.get(1).toString(), theseFellas.get(2).toString(), humanPlayer);
 			if(disprove != null){
 				controller.updateResult(disprove.getName());
 				for(ComputerPlayer p: this.cpuPlayers){
@@ -279,6 +280,7 @@ public class ClueGame extends JFrame {
 				controller.updateResult("None");
 			firstTurn = false;
 		}
+		repaint();
 		drawPlayers(this.getGraphics());
 	}
 

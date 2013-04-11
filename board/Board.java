@@ -526,6 +526,7 @@ public class Board extends JPanel implements MouseListener {
 		}
 		if(!humanTurn) {
 			theGame.humanSuggestionMenu();
+			theGame.suggestionOver = true;
 		}
 		
 	}

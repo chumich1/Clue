@@ -24,6 +24,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import misc.ClueGame;
 import misc.Player;
 
 // Board class body
@@ -54,6 +55,11 @@ public class Board extends JPanel implements MouseListener {
 	private boolean enabled;
 	private Player human;
 	private boolean humanTurn;
+	private ClueGame theGame;
+	
+	public void setGame(ClueGame theGame) {
+		this.theGame = theGame;
+	}
 
 	// Default constructor for board. Simply initializes the values, nothing else
 	public Board() {
@@ -517,6 +523,9 @@ public class Board extends JPanel implements MouseListener {
 		
 		if(humanTurn) {
 			humanTurn = !checkAvailability(human);
+		}
+		if(!humanTurn) {
+			theGame.humanSuggestionMenu();
 		}
 		
 	}

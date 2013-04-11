@@ -230,11 +230,15 @@ public class ClueGame extends JFrame {
 		controller.updateTurn(currentPlayer.getName());
 		board.setHumanTurn(true);
 		board.setHuman(currentPlayer);
-		if(board.getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom()){
+		board.setGame(this);
+	}
+	
+	public void humanSuggestionMenu() {
+		if(board.getCellAt(humanPlayer.getRow(), humanPlayer.getColumn()).isRoom()){
 			firstTurn = true;
 			suggestionOver = false;
-			suggestion = new SuggestionGUI(deck, board.getRoomCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).getRoomName());
-		}		
+			suggestion = new SuggestionGUI(deck, board.getRoomCellAt(humanPlayer.getRow(), humanPlayer.getColumn()).getRoomName());
+		}
 	}
 	
 	private JMenuItem createFileExitItem() {

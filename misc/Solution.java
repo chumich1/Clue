@@ -13,6 +13,14 @@ public class Solution {
 		this.room = room;
 	}
 	
+
+
+	public Solution() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public boolean checkSolution(String person, String weapon, String room) {
 		if(!this.person.equals(person))
 			return false;

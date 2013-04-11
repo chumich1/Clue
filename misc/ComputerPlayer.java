@@ -26,10 +26,17 @@ public class ComputerPlayer extends Player {
 		return suggestion;
 	}
 	
+	public Solution createAccusation(ArrayList<Card> deck, ArrayList<Card> solution){
+		Collections.shuffle(deck);
+		Solution tempSol = new Solution(findValidCard(deck, CardType.PERSON).getName(),findValidCard(deck, CardType.WEAPON).getName(),findValidCard(deck, CardType.ROOM).getName());
+		return tempSol;
+	}
+	
 	public Card findValidCard(ArrayList<Card> deck, CardType type) {
 		ArrayList<Card> knownCards = this.getKnownCards();
 		for (Card x : deck) {
 			if (x.getCardType().equals(type) && !knownCards.contains(x)) {
+				Card returned = new Card(x.getName(), x.getCardType());
 				return x;
 			}
 		}
@@ -68,7 +75,13 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void updateSeen(Card seen) {
+		if(seen != null)
+			System.out.println(seen.getName());
 		knownCards.add(seen);
+	}
+	
+	public ArrayList<Card> getSeen(){
+		return knownCards;
 	}
 	
 	public void updateSeen(ArrayList<Card> seen) {

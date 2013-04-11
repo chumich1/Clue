@@ -39,8 +39,7 @@ public class SuggestionGUI extends JDialog {
 	
 	public ArrayList<String> getSuggestion(String room) {
 		ready = false;
-		if(rooms.getItemCount() > 0)
-			rooms.removeAll();
+		rooms.removeAll();
 		rooms.addItem(room);
 		this.setVisible(true);
 		while(!ready);
